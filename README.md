@@ -10,6 +10,6 @@ and `diskname` is a string your HTML file will be named
 ## Note
 Written for/on OS X.    
 Makes use of homebrew's `gls` and `gfind`, so install these prior using.    
-Should work on GNU/Linux with `ls` and `find`
+Should work on GNU/Linux with `ls` and `find`    
 
-
+Written for personal use, not extensively tested yet, so use at own risk.
