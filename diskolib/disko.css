@@ -1,0 +1,144 @@
+  
+
+  
+  body {
+    padding: 20px;
+    margin-bottom: 60px;
+    font-family: sans-serif;
+  }
+
+  h1{
+    margin-bottom: 0;
+  }
+
+  h1 + h3 {
+    margin-top: 0;
+  }
+
+  span#path {
+    display: inline-block;
+    font-weight: 100;
+    font-size: 0.8em;
+    margin: 0px 20px 0px 20px;
+  }
+
+  #jstree {
+    font-family: monospace;
+    margin-left: 10px;
+    padding: 20px 0px 20px 0px;
+  }
+
+  
+  #jstree ul li {
+    font-weight: bold;
+    background-color: #fff;
+    #border-top: 1px solid #eee;
+  }
+
+  #jstree ul {
+    font-weight: bold;
+    background-color: #fff;
+    #border-top: 1px solid #eee;
+  }
+
+  #jstree ul li i.jstree-ocl {
+    margin-left: -30px;
+  }
+
+  #jstree ul li a {
+    margin-left: 20px;
+  } 
+
+  #jstree ul li.f { 
+    font-weight: normal;
+    color: #0000aa; 
+    background-image: url("icons/file.svg");
+    background-repeat: no-repeat;
+    padding-left: 12px;
+  }
+
+ #jstree ul li.s { 
+    font-weight: 900;
+    color: #0000aa; 
+    background-image: none;
+    background-repeat: no-repeat;
+    padding-left: 12px;
+    
+  }
+
+   #jstree ul li.d { 
+    font-weight: bold;
+    color: #000; 
+    background-image: url("icons/folder.svg");
+    background-repeat: no-repeat;
+    padding-left: 12px;
+    border-bottom: 1px solid #eee;
+  } 
+
+   #jstree > ul:first-child > li.d:first-child { 
+    background-image: url("icons/hdd-o.svg");
+    background-repeat: no-repeat;
+  } 
+
+  #jstree.plain ul li.f, #jstree.plain ul li.d { 
+    background-image: none;
+    padding-left: 0px;
+  }
+
+
+#jstree .jstree-search {
+  font-style: italic;
+  color: #000;
+  font-weight: bold;
+  background-color: #ffee26;
+}
+
+#jstree .jstree-hovered {
+  background: #26ff91;
+  border-radius: 2px;
+  box-shadow: inset 0 0 1px #cccccc;
+}
+
+#search {
+    display: none;
+    position: relative;
+    right: -5px;
+    width: 100px;
+    text-align: right;
+    margin: 0 0 0 0; 
+    font-size: 11px; 
+}
+
+#searchbar {
+  color: #444;
+  margin: 4px;
+  padding: 4px;
+  font-size: 0.7em;
+}
+
+.topbar a, #disko {
+  color: #eee;
+  background-color: #444;
+  margin: 4px;
+  padding: 4px;
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+#disko {
+  position: relative;
+  top: 20px;
+}
+
+.bottombar {
+  color: #444;
+  background-color: #eee;
+  margin: 4px;
+  padding: 4px;
+  font-size: 0.8em;
+  text-decoration: none;
+}
+
+#throbber {
+  margin-bottom: -4px;
+}

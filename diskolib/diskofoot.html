@@ -1,0 +1,211 @@
+
+<a id="disko" target="_blank" href="https://github.com/b3nson/disk.o">disk.o</a>
+
+<script src="diskolib/jstree/jquery.min.js"></script>
+<script src="diskolib/jstree/jstree.min.js"></script>
+<script src="diskolib/jstree/plugins/jstree.search.js"></script>
+
+<script>
+
+  // JSTREE/PLAIN =============================================
+
+  var jsoff = false;
+  var allexp = false;
+
+  var urlflag = substringPostDelimiter(document.URL, "#", true);
+  if (urlflag == "jsoff") {
+    jsoff = true;
+    $("#jstoggle").html("JSTREE");
+	
+  } else {
+  	$("#jstree").removeClass("plain");
+  }
+
+
+ // JSTREE-CALLBACK ============================================
+
+  var hoverpath;
+  var to = false;
+
+  $(function () {
+    if(!jsoff) {
+
+      $('#search').show();
+      $('#all').show();
+      $('#jstree').jstree({
+      	'core' : {
+               "themes": {
+                  "name": "default",
+                  "dots": false,
+                  "icons": false,
+                  "stripes": false,
+                  "responsive": false,
+                  "variant": "small",
+              },
+          "animation": false,    
+           },
+
+      	"plugins" : [
+      		"search"
+      		]
+      });
+
+  $('#jstree').on('ready.jstree', function (e, data) {
+    $('#jstree').jstree("open_node", "ul > li:first", false, false);
+    });
+
+	$('#jstree').on('click.jstree', function (e, data) {
+    copyTextToClipboard(hoverpath);
+    });
+
+	$('#jstree').on('hover_node.jstree', function (e, data) {
+    var fullpath = "";
+    var selnode = data;
+    if(selnode.node.id.charAt(0) == 's') {
+      return false;
+    }
+    for (var i = 0; i < selnode.node.parents.length-1; i++) {
+    	var snippet = $("#" +selnode.node.parents[i]+" > a:first").text();
+    	fullpath = snippet +"/" + fullpath;
+    };
+    hoverpath = "/" +fullpath +selnode.node.text
+    var el = '<span id="path">' +hoverpath +"</span>"
+		$("#" +selnode.node.id +"> a:first").append( el );
+    });
+
+	$('#jstree').on('dehover_node.jstree', function (e, data) {
+		$("span#path").remove();
+    });
+
+	$('#jstree').on('search.jstree', function (e, data) {
+		$('#throbber').hide();
+    $('#searchmatches').text(data.res.length +" matches");
+    });
+	
+  $('#jstree').on('clear_search.jstree', function (e, data) {
+    $('#throbber').hide();
+    $('#searchmatches').text("");
+    });
+
+  //$('#jstree').on('open_all.jstree', function (e, data) {
+    //$('#throbber').hide();
+    //});
+
+  } //ifjsoff
+  });
+
+
+ // OTHER-CALLBACK ============================================
+
+  $('#search').on("keyup", function (e) {
+    if(e.keyCode != 27) {
+      $('#searchmatches').text("");
+      $('#throbber').show();
+    }
+    if(to) { 
+      clearTimeout(to); 
+    }
+    to = setTimeout(function () {
+      var v = $('#search').val();
+      $('#jstree').jstree(true).search(v);
+    }, 500);
+    });
+
+  $("#all").on('click', function (e) {
+    e.preventDefault();
+    if (allexp) {
+      $('#jstree').jstree('close_all');
+      $('#jstree').jstree("open_node", "ul > li:first", false, false);
+      $("#all").html('ALL &darr;');
+      allexp = false;
+    } else {
+      $('#all').html('ALL &uarr;');
+      //$('#throbber').show(0);
+      //$('#jstree').jstree('open_all');
+      jstree_fastopen_all();
+      allexp = true;
+    }
+    return false; 
+  });
+
+  $("#jstoggle").on('click', function (e) {
+    e.preventDefault();
+    if (jsoff) {
+      var url = substringPreDelimiter(window.location.href, "#");
+      window.location = url;
+    } else {
+      window.location = window.location.href +"#jsoff";
+      window.location.reload(false);
+    }
+    return false; 
+  } );
+
+
+ // UTIL =====================================================
+
+  function copyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+      var successful = document.execCommand('copy');
+    } catch (err) {
+    }
+    document.body.removeChild(textArea);
+  }
+
+  function jstree_fastopen_all() {
+    var m = $('#jstree').jstree(true)._model.data, i;
+    for(i in m) {
+        if(m.hasOwnProperty(i) && i !== '#') {
+            m[i].state.opened = true;
+        }
+    }
+    $('#jstree').jstree(true).redraw(true);
+  }
+
+  function substringPreDelimiter(str, del, firstOcc) {
+    var j;
+    if(firstOcc) {
+      j = str.indexOf(del);
+    } else {
+      j = str.lastIndexOf(del);
+    }  
+    if(j != -1) {
+      str = str.substring(0, j);
+    } 
+    return str;
+  }
+
+  function substringPostDelimiter(str, del, firstOcc) {
+    var i;
+    if(firstOcc) {
+      i = str.indexOf(del);
+    } else {
+      i = str.lastIndexOf(del);
+    }
+    if(i != -1) {
+      if(str.length > (i+1)) {
+        return str.substring(i+1, str.length);
+      }
+    }
+    return null;
+  }
+
+</script>
+
+</body>
+</html>
+<!-- disk.o | https://github.com/b3nson/disk.o -->
