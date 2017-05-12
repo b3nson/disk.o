@@ -17,7 +17,7 @@
 #.                                                                   #
 #.------------------------------------------------------------------.#
 
-EXCLUDEDIRCONTENTS="\.rtfd|\.app|\.lpdf|\.workflow"
+EXCLUDEDIRCONTENTS="\.rtfd|\.app|\.lpdf|\.workflow|^\."
 EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems"
 EXCLUDEDFILES="\.DS_Store|.localized|\._\.*|Desktop DB|Desktop DF|Icon"
 GROUPEXT=".*\.png|.*\.jpg|.*\.JPG|.*\.jpeg|.*\.tga|.*\.tif|.*\.tiff|.*\.gif|.*\.eps|.*\.ai|.*\.AI|.*\.psd|.*\.svg|.*\.pdf"
@@ -59,7 +59,7 @@ function disko() {
       return;
   fi
 
-  cd "$1"
+  cd -- "$1"
 
   #*******************************************************************
   echo '<li id="d'$COUNTDIRS'" class="d">'`basename "$PWD"`'<ul>' >>  $HTML   # print dir
