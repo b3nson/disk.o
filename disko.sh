@@ -18,8 +18,8 @@
 #.------------------------------------------------------------------.#
 
 EXCLUDEDIRCONTENTS="\.rtfd|\.app|\.lpdf|\.workflow|^\."
-EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems"
-EXCLUDEDFILES="\.DS_Store|.localized|\._\.*|Desktop DB|Desktop DF|Icon"
+EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems|TheVolumeSettingsFolder"
+EXCLUDEDFILES="\.DS_Store|.localized|\._\.*|Desktop DB|Desktop DF|Icon|\.DocumentRevisions.*"
 GROUPEXT=".*\.png|.*\.jpg|.*\.JPG|.*\.jpeg|.*\.tga|.*\.tif|.*\.tiff|.*\.gif|.*\.eps|.*\.ai|.*\.AI|.*\.psd|.*\.svg|.*\.pdf"
 GROUPMIN=10
 
@@ -146,19 +146,17 @@ function disko() {
 
 #=====================================================================
 
+cat $HEAD                                       >  $HTML
 
-cat $HEAD                                      >  $HTML
+#-------------------------------------------------------------------
 
 echo '<h1>'                                    >>  $HTML
 echo $DISKNAME                                 >>  $HTML    # diskname
 echo '</h1>'                                   >>  $HTML
 
-
 echo "<h3>"                                    >>  $HTML
 echo $PA                                       >>  $HTML   # startpath
 echo "</h3>"                                   >>  $HTML
-
-
 echo '<div id="jstree" class="plain">'         >>  $HTML
 
 #-------------------------------------------------------------------
@@ -170,28 +168,46 @@ echo "</ul>"                                   >>  $HTML
 #-------------------------------------------------------------------
 
 echo "</div>"                                  >>  $HTML
-
 echo "<h2>"                                    >>  $HTML
 echo "$COUNTDIRS Folders "                     >>  $HTML
-echo "$COUNTFILES Files ~"                     >>  $HTML    # diskinfo
+echo "$COUNTFILES Files ~"                     >>  $HTML    # howmany
 du -sh $PA | cut -f 1                          >>  $HTML
 echo "total"                                   >>  $HTML
-
 echo "</h2>"                                   >>  $HTML
 
 #-------------------------------------------------------------------
 
-echo "<div class=\"bottombar\"><b>EXCLUDED FROM LISTING:\
-                </b><br />"                                 >>  $HTML
-echo "<b>Files:</b> " $EXCLUDEDFILES "<br />"\
-                | sed 's/\\//g' | sed 's/|/  /g'            >>  $HTML
-echo "<b>Dirs:</b> " $EXCLUDEDIRS "<br />"\
-                | sed 's/\\//g' | sed 's/|/  /g'            >>  $HTML
-echo "<b>Dir Contents:</b> " $EXCLUDEDIRCONTENTS "<br />"\
-                | sed 's/\\//g' | sed 's/|/    /g'          >>  $HTML
-echo '</div>'                                               >>  $HTML
+DISKINFO=`diskutil info "$PA"`                        # print diksinfo
+if [ `echo "$DISKINFO" | wc -l` -gt 1 ] 
+  then
+  echo "<div class=\"infobox\"><b>diskutil info $PA</b>\
+        <pre class=\"pad\">"                                  >> $HTML
+  echo "$DISKINFO" \
+          | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/\<br\/\>/g' >> $HTML
+  echo "</pre></div>"                                         >> $HTML
+else
+  echo "<div class=\"infobox\"><b>df -h $PA</b><pre>"         >> $HTML
+  df -h "$PA" \
+          | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/\<br\/\>/g' >> $HTML
+  echo '</pre></div>'                                         >> $HTML
+fi
 
-cat $FOOT                                                   >>  $HTML
+#-------------------------------------------------------------------
+
+                                                  # print excludefiles
+echo "<div class=\"infobox\"><b>EXCLUDED FROM LISTING:</b>\
+                <pre style=\"padding-left: 0px;\">"          >>  $HTML
+echo "<b>FILES:</b><br/>"$EXCLUDEDFILES"<br/>" \
+                | sed 's/\\//g' | sed 's/|/  /g'             >>  $HTML
+echo "<b>DIRS:</b><br/>"$EXCLUDEDIRS"<br/>" \
+                | sed 's/\\//g' | sed 's/|/  /g'             >>  $HTML
+echo "<b>DIR CONTENTS:</b><br/>"$EXCLUDEDIRCONTENTS"<br/>"\
+                | sed 's/\\//g' | sed 's/|/    /g'           >>  $HTML
+echo '</pre></div>'                                          >>  $HTML
+
+#-------------------------------------------------------------------
+
+cat $FOOT                                                    >>  $HTML
 
 #-------------------------------------------------------------------
 
