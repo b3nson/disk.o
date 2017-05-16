@@ -14,12 +14,20 @@
   h1 + h3 {
     margin-top: 0;
   }
+  
+  q {
+    quotes: none;
+    font-size: 0.8em;
+    font-weight: normal;
+    font-style: normal;
+    color: #666;
+  }
 
   span#path {
     display: inline-block;
     font-weight: 100;
     font-size: 0.8em;
-    margin: 0px 20px 0px 20px;
+    margin: 0px 2px 0px 20px;
   }
 
   #jstree {
@@ -163,3 +171,4 @@
 #throbber {
   margin-bottom: -4px;
 }
+

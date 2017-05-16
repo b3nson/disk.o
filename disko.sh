@@ -18,8 +18,8 @@
 #.------------------------------------------------------------------.#
 
 EXCLUDEDIRCONTENTS="\.rtfd|\.app|\.lpdf|\.workflow|^\."
-EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems|TheVolumeSettingsFolder"
-EXCLUDEDFILES="\.DS_Store|.localized|\._\.*|Desktop DB|Desktop DF|Icon|\.DocumentRevisions.*"
+EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems|TheVolumeSettingsFolder|\.DocumentRevisions.*"
+EXCLUDEDFILES="\.DS_Store|.localized|\._\.*|Desktop DB|Desktop DF|Icon"
 GROUPEXT=".*\.png|.*\.jpg|.*\.JPG|.*\.jpeg|.*\.tga|.*\.tif|.*\.tiff|.*\.gif|.*\.eps|.*\.ai|.*\.AI|.*\.psd|.*\.svg|.*\.pdf"
 GROUPMIN=10
 
@@ -27,6 +27,7 @@ GROUPMIN=10
 
 SCRIPTPATH=$PWD;
 IFS=$'\n'
+TAB=$'\t'
 
 COUNTFILES=0
 COUNTDIRS=0
@@ -62,7 +63,9 @@ function disko() {
   cd -- "$1"
 
   #*******************************************************************
-  echo '<li id="d'$COUNTDIRS'" class="d">'`basename "$PWD"`'<ul>' >>  $HTML   # print dir
+  DIRSIZE=`du -hs | sed 's/'"${TAB}"'\.//g'`
+  echo '<li id="d'$COUNTDIRS'" class="d">'`basename \
+                                "$PWD"`"<q> $DIRSIZE</q>"'<ul>'   >>  $HTML   # print dir
   #*******************************************************************
 
   # check EXCLUDEDIRCONTENTS

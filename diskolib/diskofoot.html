@@ -16,7 +16,6 @@
   if (urlflag == "jsoff") {
     jsoff = true;
     $("#jstoggle").html("JSTREE");
-	
   } else {
   	$("#jstree").removeClass("plain");
   }
@@ -65,10 +64,10 @@
       return false;
     }
     for (var i = 0; i < selnode.node.parents.length-1; i++) {
-    	var snippet = $("#" +selnode.node.parents[i]+" > a:first").text();
-    	fullpath = snippet +"/" + fullpath;
+      var snippet = $("#" +selnode.node.parents[i]+" > a:first").contents().get(1).nodeValue;
+    	fullpath = snippet +"/" +fullpath;
     };
-    hoverpath = "/" +fullpath +selnode.node.text
+    hoverpath = "/" +fullpath +$("#" +selnode.node.id+" > a:first").contents().get(1).nodeValue;
     var el = '<span id="path">' +hoverpath +"</span>"
 		$("#" +selnode.node.id +"> a:first").append( el );
     });
