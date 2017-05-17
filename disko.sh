@@ -20,7 +20,7 @@
 EXCLUDEDIRCONTENTS="\.rtfd|\.app|\.lpdf|\.workflow|^\."
 EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems|TheVolumeSettingsFolder|\.DocumentRevisions.*"
 EXCLUDEDFILES="\.DS_Store|.localized|\._\.*|Desktop DB|Desktop DF|Icon"
-GROUPEXT=".*\.png|.*\.jpg|.*\.JPG|.*\.jpeg|.*\.tga|.*\.tif|.*\.tiff|.*\.gif|.*\.eps|.*\.ai|.*\.AI|.*\.psd|.*\.svg|.*\.pdf"
+GROUPEXT=".*\.png|.*\.jpg|.*\.JPG|.*\.jpeg|.*\.tga|.*\.tif|.*\.tiff|.*\.gif|.*\.eps|.*\.ai|.*\.AI|.*\.psd|.*\.svg|.*\.pdf|.*\.thm"
 GROUPMIN=10
 
 #=====================================================================
@@ -210,14 +210,20 @@ echo '</pre></div>'                                          >>  $HTML
 
 #-------------------------------------------------------------------
 
+ENDTIME=$(date +%s)
+DIFFTIME=$(( $ENDTIME - $STARTTIME ))
+echo '<a id="disko" target="_blank"'\
+        'href="https://github.com/b3nson/disk.o">disk.o</a>' >>  $HTML
+echo '<span class="report">Indexed' \
+             $COUNTALL' items in '$DIFFTIME' seconds</span>' >>  $HTML
+
+#-------------------------------------------------------------------
+
 cat $FOOT                                                    >>  $HTML
 
 #-------------------------------------------------------------------
 
-ENDTIME=$(date +%s)
-DIFFTIME=$(( $ENDTIME - $STARTTIME ))
-
 printf " "
-echo "  DISKO: Indexed $COUNTALL items in $DIFFTIME Seconds"
+echo "  DISKO: Indexed $COUNTALL items in $DIFFTIME seconds"
 exit 0;
 

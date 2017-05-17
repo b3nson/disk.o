@@ -14,7 +14,7 @@
   h1 + h3 {
     margin-top: 0;
   }
-  
+
   q {
     quotes: none;
     font-size: 0.8em;
@@ -124,7 +124,7 @@
   font-size: 0.7em;
 }
 
-.topbar a, #disko {
+.topbar a, #disko, .report {
   color: #eee;
   background-color: #444;
   margin: 4px;
@@ -133,9 +133,16 @@
   text-decoration: none;
 }
 
-#disko {
+#disko, .report {
   position: relative;
   top: 20px;
+}
+
+.report {
+  color: #666;
+  background-color: #eee;
+  padding: 5px 10px 3px 10px;
+  margin-left: -9px;
 }
 
 .infobox {
