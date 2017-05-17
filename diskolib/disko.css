@@ -5,6 +5,8 @@
     padding: 20px;
     margin-bottom: 60px;
     font-family: sans-serif;
+    /*background-color: #dedede;*/
+    background-color: #fff;
   }
 
   h1{
@@ -32,25 +34,26 @@
 
   #jstree {
     font-family: monospace;
-    margin-left: 10px;
-    padding: 20px 0px 20px 0px;
+    padding: 20px 10px 20px 10px;
+    background-color: #fff;
+    /*background-color: #f9f9f9;*/
   }
 
+ .jstree-node {
+      margin-left: 26px !important; 
+  }
   
-  #jstree ul li {
-    font-weight: bold;
-    background-color: #fff;
-    #border-top: 1px solid #eee;
+  #jstree > ul:first-of-type > li.jstree-node:first-of-type {
+      margin-left: 0px !important; 
   }
 
   #jstree ul {
     font-weight: bold;
-    background-color: #fff;
-    #border-top: 1px solid #eee;
   }
 
-  #jstree ul li i.jstree-ocl {
-    margin-left: -30px;
+  #jstree ul li {
+    font-weight: bold;
+    padding: 0px 0px 0px 0px;
   }
 
   #jstree ul li a {
@@ -62,7 +65,7 @@
     color: #0000aa; 
     background-image: url("icons/file.svg");
     background-repeat: no-repeat;
-    padding-left: 12px;
+    background-position: 20px 1px; 
   }
 
  #jstree ul li.s { 
@@ -70,8 +73,7 @@
     color: #0000aa; 
     background-image: none;
     background-repeat: no-repeat;
-    padding-left: 12px;
-    
+    margin-left: 11px !important;
   }
 
    #jstree ul li.d { 
@@ -79,8 +81,12 @@
     color: #000; 
     background-image: url("icons/folder.svg");
     background-repeat: no-repeat;
-    padding-left: 12px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e0e0e0;
+    background-position: 20px 1px; 
+  } 
+
+   #jstree > ul:first-of-type > li.d:first-of-type { 
+    border-bottom: none;
   } 
 
    #jstree:not(.plain) > ul:first-child > li.d:first-child { 
@@ -177,5 +183,22 @@
 
 #throbber {
   margin-bottom: -4px;
+}
+
+.sizebar {
+  display: inline-block;
+  position: absolute;
+  right: 30px;
+  height: inherit;
+  background-color: #111;
+  opacity: 0.2;
+  min-width: 1px;
+}
+
+.sizebar.root {
+  margin-bottom: -10px;
+  background-color: #111;
+  opacity: 0.4;
+  height: 17px;
 }
 

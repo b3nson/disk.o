@@ -23,6 +23,8 @@
 
   var hoverpath;
   var to = false;
+  var sizeBarsShown = false;
+  var sizeBarsParentId = NaN;
 
   $(function () {
     if(!jsoff) {
@@ -55,6 +57,44 @@
     copyTextToClipboard(hoverpath);
     });
 
+  $('#jstree').on('select_node.jstree', function (e, data) {
+    if( $("#" +data.node.id).hasClass("d") ) {
+      if (sizeBarsShown) {
+        $('#jstree .sizebar').remove();
+        sizeBarsShown = false;
+        if(sizeBarsParentId == data.node.id) {
+          sizeBarsParentId = NaN;
+          return;
+        }
+      }
+      if( $('#jstree').jstree("is_open", data.node) ) {
+        var parentsize = toKiloByte($("#" +data.node.id+" > a:first > q:first").text());
+        var childNum = -1;
+        //BAR ON CHILDREN
+        $("#" +data.node.id+" > ul:first > li.d > a").each(function(i, obj) {
+          childNum = i;
+          var childsize = toKiloByte($(obj).children("q:first").text());
+          var abssize = Math.round( (((childsize / parentsize) * 50)) * 100) / 100;
+          $(obj).append( '<div class="sizebar" style="width:' +abssize +'%;"></div>' );
+          sizeBarsShown = true;
+          sizeBarsParentId = data.node.id;
+        });
+        //BAR ON PARENT
+        if(childNum != -1) {
+          $("#" +data.node.id+" > a:first").append( '<div class="sizebar root" style="width: 50%;"></div>' );
+        }
+      }
+    }
+  });
+
+  $('#jstree').on('close_node.jstree', function (e, data) {
+    if (sizeBarsShown && sizeBarsParentId == data.node.id) {
+      $('#jstree .sizebar').remove();
+      sizeBarsShown = false;
+      sizeBarsParentId = NaN;
+    }
+  });
+
 	$('#jstree').on('hover_node.jstree', function (e, data) {
     var fullpath = "";
     var selnode = data;
@@ -83,10 +123,6 @@
     $('#throbber').hide();
     $('#searchmatches').text("");
     });
-
-  //$('#jstree').on('open_all.jstree', function (e, data) {
-    //$('#throbber').hide();
-    //});
 
   } //ifjsoff
   });
@@ -171,6 +207,28 @@
         }
     }
     $('#jstree').jstree(true).redraw(true);
+  }
+
+  function toKiloByte(str) {
+    var entity = str.slice(-1);
+    var kb = str.slice(0, -1);
+    switch(entity) {
+        case "M":
+            kb += "000";
+            break;
+        case "G":
+            kb += "000000";
+            break;
+        default:
+            kb = kb;
+    }
+    var l1 = kb.length;
+    kb = kb.replace('.','');
+    var l2 = kb.length;
+    if(l1 != l2) {
+      kb = kb.slice(0, -1);
+    }
+    return kb;
   }
 
   function substringPreDelimiter(str, del, firstOcc) {
