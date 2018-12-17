@@ -12,7 +12,8 @@ The `diskolib` dir needs to be there as well for the generated HTML to work prop
 
 ## Note
 Written for/on OS X.    
-Makes use of homebrew's `gls` and `gfind`, so install these prior using.    
+Makes use of homebrew's `gls` and `gfind`, so install these prior using.
+(`brew install coreutils findutils`)
 Should work on GNU/Linux with `ls` and `find`    
 
 Written for personal use, not extensively tested yet, so use at own risk.
