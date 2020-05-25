@@ -18,7 +18,7 @@
 #.------------------------------------------------------------------.#
 
 EXCLUDEDIRCONTENTS="\.rtfd|\.app|\.lpdf|\.workflow|^\."
-EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems|TheVolumeSettingsFolder|\.DocumentRevisions.*"
+EXCLUDEDIRS="\.Trashes|\.Spotlight*|\.fseventsd|\.TemporaryItems|TheVolumeSettingsFolder|\.DocumentRevisions.*|RECYCLER|$RECYCLER.BIN|System Volume Information"
 EXCLUDEDFILES="\.DS_Store|.localized|\._\.*|Desktop DB|Desktop DF|Icon"
 GROUPEXT=".*\.png|.*\.jpg|.*\.JPG|.*\.jpeg|.*\.tga|.*\.tif|.*\.tiff|.*\.gif|.*\.eps|.*\.ai|.*\.AI|.*\.psd|.*\.svg|.*\.pdf|.*\.thm"
 GROUPMIN=10
